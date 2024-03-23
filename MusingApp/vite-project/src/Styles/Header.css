@@ -1,0 +1,26 @@
+.line {
+    height: 2px;
+    background-color: black;
+    width: 100vw;
+}
+
+.bg {
+    background-color:darkseagreen;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100vw;
+}
+
+.logo-and-text {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .app-name {
+    font-weight: bold;
+    font-size: 2.5rem; /* Adjust the font size as needed */
+    margin-left: 500px; /* Adjust the margin as needed */
+    font-family: sans-serif;
+    font-style:italic;
+}

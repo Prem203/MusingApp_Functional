@@ -1,0 +1,25 @@
+.line1 {
+    height: 2px;
+    background-color: black;
+    width: 100vw;
+    position: fixed;
+    bottom: 30px;
+}
+
+.text {
+    bottom: 0px;
+    background-color:darkseagreen;
+    position: fixed;
+    width: 100vw;
+    height: 30px;
+}
+
+.name {
+    font-weight: bold;
+    position: fixed;
+    font-size: medium; /* Adjust the font size as needed */
+    margin-left: 700px; /*Adjust the margin as needed */
+    bottom: -10px;
+    font-family: sans-serif;
+    font-style:italic;
+}
