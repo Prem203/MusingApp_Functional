@@ -5,8 +5,7 @@ import "../Styles/Content.css";
 import Footer from './Footer';
 import Prof from "../assets/IMG_0557.jpeg";
 
-export default class Profile extends Component {
-  render() {
+export default function Profile() {
     console.log("Landing page render!!")
     return (
       <div>
@@ -58,4 +57,3 @@ export default class Profile extends Component {
       </div>
     );
   }
-}

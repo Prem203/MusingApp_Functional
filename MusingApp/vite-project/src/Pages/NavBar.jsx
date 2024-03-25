@@ -4,8 +4,7 @@ import "../Styles/NavBar.css";
 import "../Styles/Header.css";
 
 
-export default class NavBar extends Component {
-  render() {
+export default function NavBar() {
     console.log("NavBar");
     return (
       <>
@@ -30,4 +29,3 @@ export default class NavBar extends Component {
       </>
     );
   }
-}

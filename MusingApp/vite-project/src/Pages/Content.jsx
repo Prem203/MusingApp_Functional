@@ -1,49 +1,54 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../Styles/Content.css";
 import { Link } from 'react-router-dom';
-import { collection, getDocs } from "firebase/firestore";
 import Posts from '../Models/Posts';
 
-export default class Content extends Component {
+export default function Content() {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: [],
-    };
-    this.postObject = new Posts();
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     posts: [],
+  //   };
+  //   this.postObject = new Posts();
+  // }
+
+  const [posts, setPosts] = useState([]);
+  const postObject = new Posts();
 
 
-  componentDidMount() {
-    console.log("enetered component")
-    this.fetchPosts();
-  }
+  // componentDidMount() {
+  //   console.log("enetered component")
+  //   this.fetchPosts();
+  // }
 
-  async fetchPosts() {
+  useEffect(() => {
+    console.log("entered component");
+    fetchPosts();
+  }, []);
+
+  async function fetchPosts() {
     try {
-      console.log("fetchPosts entered!!!!!!!! wooo")
-      const posts = await this.postObject.fetchPosts();
-      
-      this.setState({ posts });
+      console.log("fetchPosts entered!!!!!!!! wooo");
+      const fetchedPosts = await postObject.fetchPosts();
+      setPosts(fetchedPosts);
+
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
   };
 
-  async savePost(docid) {
+  async function savePost(docid) {
     try {
       console.log("SavePost entered!!!!!!!! wooo")
-      const posts = await this.postObject.addSavedPostId(docid);
-      
+      await postObject.addSavedPostId(docid);
+
     } catch (error) {
       console.error('Error saving posts:', error);
     }
   };
   
   
-  render() {
-    const{posts} = this.state;
     return (
     
       <div className='main-div' >
@@ -54,11 +59,10 @@ export default class Content extends Component {
 
 
         <div>
-          
           {posts.map((post) => (
             <div>
-            <div className='content'>
-            <div key={post.id}>
+            <div key={post.id} className='content'>
+            <div>
               <p>{post.desc}</p>
             </div>
             </div>
@@ -74,7 +78,7 @@ export default class Content extends Component {
             </Link>
             </button>
 
-            <button type="button" className="btn btn-primary btn-sm save" onClick={() => this.savePost(post.id)}>
+            <button type="button" className="btn btn-primary btn-sm save" onClick={() => savePost(post.id)}>
             Save
             </button>
             </div>
@@ -114,4 +118,3 @@ export default class Content extends Component {
       </div>
     )
   }
-}

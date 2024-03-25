@@ -1,67 +1,70 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header2 from './Header2';
 import Footer from './Footer';
 import '../Styles/Comment.css';
 import Comments from '../Models/Comments'
-import PropTypes from 'prop-types';
 
-export default class Comment extends Component {
+export default function Comment() {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      comments: [],
-      comment: "",
-      postId: "",
-    };
-    this.commentObject = new Comments();
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     comments: [],
+  //     comment: "",
+  //     postId: "",
+  //   };
+  //   this.commentObject = new Comments();
 
-  }
+  // }
 
-  componentDidMount() {
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState('');
+  const [postId, setPostId] = useState('');
+  const commentObject = new Comments();
+
+
+  useEffect(() => {
     const urlCommentParams = new URLSearchParams(window.location.search);
     const postId = urlCommentParams.get("postid");
     if (postId) {
-      this.fetchComments(postId);
-  }
-  this.setState({ postId });
-  }
+          fetchComments(postId);
+          setPostId(postId);
+      }
+  }, [])
+  // componentDidMount() {
+  //   const urlCommentParams = new URLSearchParams(window.location.search);
+  //   const postId = urlCommentParams.get("postid");
+  //   if (postId) {
+  //     this.fetchComments(postId);
+  // }
+  // this.setState({ postId });
+  // }
 
-  async fetchComments(postId) {
+  const fetchComments = async (postId) => {
     try {
-        const comments = await this.commentObject.getComments(postId);
-        console.log("Fetched comments:", comments);
-        this.setState({ comments });
+      const comments = await commentObject.getComments(postId);
+      console.log("Fetched comments:", comments);
+      setComments(comments);
     } catch (error) {
-        console.error('Error fetching comments:', error);
+      console.error('Error fetching comments:', error);
     }
-}
-
-
-  handleCommentChange = (event) => {
-    this.setState({ comment: event.target.value }); // Update the comment state
   };
 
-  handleSubmit = async () => {
-    const { comment, postId } = this.state;
-    try {
-      // Save post and tag to the database
-      await this.commentObject.saveComment(postId, comment);
 
-      // Reset input fields after saving
-      this.setState((prevState) => ({
-        comments: [...prevState.comments, comment],
-        comment: '' // Reset the comment input
-      }));
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await commentObject.saveComment(postId, comment);
+      setComments((prevComments) => [...prevComments, comment]);
+      setComment('');
     } catch (error) {
       console.error('Error saving comment:', error);
     }
   };
 
-  
-  render() {
-    const { comment } = this.state;
-    console.log("this.state--->",this.state.comments);
 
     return (
         <div>
@@ -69,7 +72,7 @@ export default class Comment extends Component {
             <h4>Comments:</h4>
             <div className='comm'>
               <ul>
-              {this.state.comments.map((comment, index) => (
+              {comments.map((comment, index) => (
               <div key={index} className="comment">
               <li>{comment}</li>
               </div>
@@ -80,7 +83,7 @@ export default class Comment extends Component {
                 <textarea
                     className="commen"
                     value={comment}
-                    onChange={this.handleCommentChange}
+                    onChange={handleCommentChange}
                     placeholder="Type here"
                 />
             </div>
@@ -88,11 +91,9 @@ export default class Comment extends Component {
                 className="btn btn-primary sub"
                 type="button"
                 value="Submit"
-                onClick={this.handleSubmit}
+                onClick={handleSubmit}
             />
             <Footer />
         </div>
     );
 }
-}
-

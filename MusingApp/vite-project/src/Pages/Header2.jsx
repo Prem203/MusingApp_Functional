@@ -5,8 +5,7 @@ import { FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 
-export default class Header2 extends Component {
-  render() {
+export default function Header2() {
     console.log("Headerrrr2");  
     return (
       <>
@@ -19,7 +18,7 @@ export default class Header2 extends Component {
         <nav className="navbar">
         <div className="homelogo">
               <div className="ms-auto">
-                <Link to="/">
+                <Link to="/landingpage">
                   <FaHome className="home-icon" />
                 </Link>
               </div>
@@ -32,4 +31,3 @@ export default class Header2 extends Component {
       </>
     );
   }
-}

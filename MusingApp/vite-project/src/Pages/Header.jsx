@@ -3,8 +3,7 @@ import "../Styles/Header.css";
 import Logo from "../assets/musing-high-resolution-logo-transparent.png";
 
 
-export default class Header extends Component {
-  render() {
+export default function Header() {
     console.log("Headerrrr 8");
     return (
       <>
@@ -19,4 +18,3 @@ export default class Header extends Component {
       </>
     );
   }
-}

@@ -1,13 +1,8 @@
-export default class User {
-    constructor({
-        username = "",
-        posts = [],
-        savedposts = [],
-    }){
-        this.username = username;
-        this.posts = posts;
-        this.savedposts = savedposts;
-    }
-
-     
-}
+export default function User({ username = "", posts = [], savedposts = [] }) {
+    return {
+      username,
+      posts,
+      savedposts
+    };
+  }
+  
