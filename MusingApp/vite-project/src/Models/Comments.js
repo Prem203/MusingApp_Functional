@@ -6,11 +6,9 @@ export default function Comments() {
 
   const saveComment = async (postId, comment) => {
     try {
-      // Get a reference to the 'comments' collection inside the 'posts' collection
       const postRef = doc(db.db, "posts", postId);
       const commentsCollectionRef = collection(postRef, "comment");
 
-      // Add a new document with the comment data
       await addDoc(commentsCollectionRef, {
         desc: comment,
       });
@@ -18,7 +16,7 @@ export default function Comments() {
       console.log("Comment added successfully!");
     } catch (error) {
       console.error("Error adding comment:", error);
-      throw error; // Rethrow the error for handling in the caller
+      throw error; 
     }
   };
 

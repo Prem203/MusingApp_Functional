@@ -22,6 +22,12 @@ export default function NavBar() {
               </li>
             </ul>
           </div>
+          <div className='logout'>
+            <Link to="/">
+                <button type="button" className="btn btn-danger">
+                    Logout
+                </button></Link>
+          </div>
         </nav>
 
         <div className='line'></div>

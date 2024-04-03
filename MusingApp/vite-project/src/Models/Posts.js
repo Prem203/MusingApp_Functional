@@ -1,4 +1,4 @@
-import { getDocs, collection, addDoc, updateDoc, getDoc, query, where } from "firebase/firestore";
+import { getDocs, collection, addDoc, updateDoc, getDoc, doc, query, where } from "firebase/firestore";
 import MyFirebaseDB from "./MyFireBaseDB";
 
 export default function Posts() {
@@ -6,12 +6,13 @@ export default function Posts() {
 
   async function fetchPosts() {
     try {
-      const postcollection = await getDocs(collection(db.db, "posts"));
-      const postList = postcollection.docs.map(doc => ({ id: doc.id, desc: doc.data().desc, tag: doc.data().tag }));
+      const postCollection = collection(db.db, "posts");
+      const postSnapshot = await getDocs(postCollection);
+      const postList = postSnapshot.docs.map(doc => ({ id: doc.id, desc: doc.data().desc, tag: doc.data().tag }));
       console.log('Postlist - returning now', postList);
       return postList;
     } catch (error) {
-      console.error("Error fetching post details:", error);
+      console.error("Error fetching post details:", error.message);
       return null;
     }
   }
@@ -25,7 +26,7 @@ export default function Posts() {
       console.log('Post and tag saved successfully');
       await addPostId(docId);
     } catch (error) {
-      console.error('Error saving post and tag:', error);
+      console.error('Error saving post and tag:', error.message);
       throw error;
     }
   }
@@ -33,15 +34,17 @@ export default function Posts() {
   async function addPostId(docid) {
     try {
       const usersCollection = collection(db.db, 'users');
-      const userDocRef = await getDoc(usersCollection, 'PremVora');
-      if (userDocRef.exists()) {
-        await updateDoc(userDocRef.ref, { posts: docid });
+      const userDocRef = doc(usersCollection, 'PremVora');
+      const userDocSnapshot = await getDoc(userDocRef);
+    
+      if (userDocSnapshot.exists()) {
+        await updateDoc(userDocRef, { posts: docid });
         console.log('User field updated successfully');
       } else {
         console.error('User document not found');
       }
     } catch (error) {
-      console.error('Error inside updating:', error);
+      console.error('Error inside updating:', error.message);
       throw error;
     }
   }
@@ -52,19 +55,19 @@ export default function Posts() {
       const userDocSnapshot = await getDocs(usersCollection);
       if (!userDocSnapshot.empty) {
         const firstUserDoc = userDocSnapshot.docs[0];
-        const userDocRef = collection(usersCollection, firstUserDoc.id);
+        const userDocRef = doc(usersCollection, firstUserDoc.id);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
           const userCurrentData = userDocSnap.data();
           const currentSavedPosts = userCurrentData.savedposts || [];
           const savedPosts = [...currentSavedPosts, docid];
-          await updateDoc(userDocRef.ref, { savedposts: savedPosts });
+          await updateDoc(userDocRef, { savedposts: savedPosts });
         } else {
           console.log("User document does not exist");
         }
       }
     } catch (error) {
-      console.error('Error inside updating:', error);
+      console.error('Error inside updating:', error.message);
       throw error;
     }
   }
@@ -76,7 +79,7 @@ export default function Posts() {
       const userDocSnapshot = await getDocs(usersCollection);
       if (!userDocSnapshot.empty) {
         const firstUserDoc = userDocSnapshot.docs[0];
-        const userDocRef = collection(usersCollection, firstUserDoc.id);
+        const userDocRef = doc(usersCollection, firstUserDoc.id);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
           const userCurrentData = userDocSnap.data();
@@ -99,7 +102,7 @@ export default function Posts() {
         }
       }
     } catch (error) {
-      console.error('Error inside updating:', error);
+      console.error('Error fetching saved posts:', error.message);
       throw error;
     }
   }

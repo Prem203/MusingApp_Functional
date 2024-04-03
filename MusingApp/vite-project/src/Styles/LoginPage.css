@@ -1,0 +1,49 @@
+.login-container {
+    background-image: url('../assets/Bg.png'); 
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+  }
+  
+  .login-form-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+  }
+  
+  .login-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .login-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-field {
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .submit-button {
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+  
+  @media (max-width: 768px) {
+    .login-form-container {
+      width: 100%;
+      padding: 20px;
+    }
+  }
+  
