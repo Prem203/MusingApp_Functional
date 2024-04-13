@@ -82,3 +82,61 @@ describe('NavBar Testing', () => {
   
   });
 
+describe('Post Testing', () => {
+  
+    beforeEach(() => {
+      cy.visit('http://localhost:5173/post');
+    });
+  
+    //test3: Post form is displayed, user can post, post is saved and displayed
+    it('Post form is displayed and it saves the post', () => {
+      cy.get('.post').should('be.visible');
+      cy.get('.tag').should('be.visible');
+      cy.get('.btn').should('be.visible');
+  });
+
+    it('New Post is added and saved', () => {
+      cy.get('.tag').type('Test');
+      cy.get('.post').type('This is a test post');
+      cy.get('.btn').click({force: true});
+  });
+  
+    it('Post is saved and displayed on homepage', () => {
+      cy.visit('http://localhost:5173/landingpage');
+      cy.get('.content').contains('This is a test post');
+  });
+  
+});
+
+describe('Save Testing', () => {
+  
+    beforeEach(() => {
+      cy.visit('http://localhost:5173/saved');
+    });
+  
+    //test4: Saved posts are displayed, user can view saved posts, user can save posts
+    it('Saved posts are displayed', () => {
+      cy.get('.saved-post').should('be.visible');
+      cy.get('.saved-post').contains('This is a test post');
+      cy.get('.saved-post').contains('Tag: Test');
+  });
+});
+
+describe('Comment Testing', () => {
+  
+    beforeEach(() => {
+      cy.visit('http://localhost:5173/comment?postid=123');
+    });
+  
+    //test5: Comment form is displayed, user can comment, comment is saved and displayed
+    it('Comment form is displayed and it saves the comment', () => {
+      cy.get('.comm').should('be.visible');
+      cy.get('.btn').should('be.visible');
+  });
+
+    it('New Comment is added and saved', () => {
+      cy.get('.commen').type('This is a test comment');
+      cy.get('.btn').click({force: true});
+  });
+  
+} );

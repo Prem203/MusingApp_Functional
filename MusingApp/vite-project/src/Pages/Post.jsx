@@ -60,12 +60,10 @@ export default function Post() {
           placeholder="Type here"
         />
         
-        <input
+        <button
           className="btn btn-primary pos"
-          type="button"
-          value="Submit"
-          onClick={handleSubmit}
-        />
+          type="submit"
+          onClick={handleSubmit}>Submit</button>
         <Footer />
       </div>
     );
